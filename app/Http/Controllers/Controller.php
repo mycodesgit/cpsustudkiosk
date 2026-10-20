@@ -32,9 +32,7 @@ class Controller extends BaseController
     {
         $guard = $this->getGuard();
         $studentowner = $guard ? Auth::guard($guard)->user()->studid : null;
-        $studauth = $studentowner
-            ? Student::where('stud_id', '=', $studentowner)->first()
-            : null;
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
         $studentcampus = $studauth->campus ?? null;
 
         return [$guard, $studentowner, $studauth, $studentcampus];

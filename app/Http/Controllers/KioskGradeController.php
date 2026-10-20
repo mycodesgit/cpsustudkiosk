@@ -26,15 +26,13 @@ class KioskGradeController extends Controller
     {
         [$guard, $studentowner, $studauth, $studentcampus] = $this->kioskContext();
 
-        $studsubviewgrd = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+        $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     ->where('studgrades.studID', $studentowner)
-                    ->where('studgrades.campus',$studentcampus)
                     ->orderBy('coasv2_db_schedule.sub_offered.id', 'ASC')
-                    ->orderBy('coasv2_db_schedule.sub_offered.schlyear', 'ASC')
                     ->get();
 
-        return view('pages.viewgrades', compact('studsubviewgrd'));
+        return view('pages.viewgrades', compact('studsub'));
     }
 }
