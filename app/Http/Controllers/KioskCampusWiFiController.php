@@ -77,7 +77,13 @@ class KioskCampusWiFiController extends Controller
         }
 
         if (!$result) {
-            return response()->json(['message' => 'No voucher codes left for this semester. Please visit the MIS office.'], 422);
+            $termLabel = '';
+            if ($term && isset($term['schlyear'], $term['semester'])) {
+                $semLabel = $term['semester'] == 1 ? '1st Sem' : ($term['semester'] == 2 ? '2nd Sem' : 'Summer');
+                $termLabel = $term['schlyear'] . ' • ' . $semLabel;
+            }
+            $msg = $termLabel ? 'No voucher code at this A.Y. and Semester (' . $termLabel . ').' : 'No voucher code at this A.Y. and Semester.';
+            return response()->json(['message' => $msg], 422);
         }
 
         return response()->json($result);
