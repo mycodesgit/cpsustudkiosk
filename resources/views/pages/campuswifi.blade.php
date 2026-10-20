@@ -84,7 +84,13 @@
                         <div class="spinner-border text-success" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <p class="text-muted small mt-2 mb-0">Generating your code...</p>
+                        <p class="text-muted small mt-2 mb-0" id="voucherLoadingText">Generating your code...</p>
+                    </div>
+                    <div id="voucherEmpty" class="py-4" style="display: none;">
+                        <div class="mb-2">
+                            <i class="ti ti-alert-circle text-warning" style="font-size: 2rem;"></i>
+                        </div>
+                        <p class="mb-0" id="voucherEmptyText">No voucher code at this A.Y. and Semester.</p>
                     </div>
                     <div id="voucherCodeWrap" style="display: none;">
                         <small class="text-muted d-block mb-2">Enter this code on the CampusWiFi login page</small>
@@ -116,6 +122,7 @@
 
             function showVoucher(code, fresh) {
                 $('#voucherLoading').hide();
+                $('#voucherEmpty').hide();
                 $('#voucherCode').text(code);
                 $('#voucherFreshNote').toggle(!!fresh);
                 $('#voucherModalSubtitle').text(
@@ -125,10 +132,23 @@
                 voucherModal.show();
             }
 
+            function showVoucherEmpty(message) {
+                $('#voucherLoading').hide();
+                $('#voucherCodeWrap').hide();
+                $('#voucherEmptyText').text(message || 'No voucher code at this A.Y. and Semester.');
+                $('#voucherModalSubtitle').text(
+                    termSchlyear + (termSemester !== '' ? ' • ' + (semLabel[termSemester] || '') : '')
+                );
+                $('#voucherEmpty').show();
+                voucherModal.show();
+            }
+
             $('#generateVoucherBtn').on('click', function () {
                 const btn = $(this);
                 btn.prop('disabled', true);
                 $('#voucherCodeWrap').hide();
+                $('#voucherEmpty').hide();
+                $('#voucherLoadingText').text('Generating your code...');
                 $('#voucherLoading').show();
                 voucherModal.show();
 
@@ -142,10 +162,10 @@
                     },
                     error: function (xhr) {
                         btn.prop('disabled', false);
-                        voucherModal.hide();
                         const msg = xhr.responseJSON && xhr.responseJSON.message
                             ? xhr.responseJSON.message
                             : 'Unable to generate a voucher right now.';
+                        showVoucherEmpty(msg);
                         toastr.error(msg);
                     }
                 });
@@ -155,6 +175,8 @@
                 const btn = $(this);
                 btn.prop('disabled', true);
                 $('#voucherCodeWrap').hide();
+                $('#voucherEmpty').hide();
+                $('#voucherLoadingText').text('Loading your voucher...');
                 $('#voucherLoading').show();
                 voucherModal.show();
 
@@ -167,10 +189,10 @@
                     },
                     error: function (xhr) {
                         btn.prop('disabled', false);
-                        voucherModal.hide();
                         const msg = xhr.responseJSON && xhr.responseJSON.message
                             ? xhr.responseJSON.message
                             : 'Unable to load your voucher right now.';
+                        showVoucherEmpty(msg);
                         toastr.error(msg);
                     }
                 });
