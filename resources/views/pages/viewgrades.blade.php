@@ -108,7 +108,7 @@
                                         $currentYear = '';
                                         $currentSemester = '';
                                         $currentColor = '';
-                                        $colorClasses = ['bg-light', 'bg-secondary'];
+                                        $colorClasses = ['table-light', 'table-secondary'];
                                         $colorIndex = 0;
                                         $sumProduct = 0;
                                         $totalCredits = 0;
@@ -150,11 +150,11 @@
                                             <td>{{ $datastudsubowner->schlyear }}</td>
                                             <td>
                                                 @if($datastudsubowner->semester == 1)
-                                                    <span class="badge badge-primary">1st Sem</span>
+                                                    <span class="badge bg-primary">1st Sem</span>
                                                 @elseif($datastudsubowner->semester == 2)
-                                                    <span class="badge badge-success">2nd Sem</span>
+                                                    <span class="badge bg-success">2nd Sem</span>
                                                 @elseif($datastudsubowner->semester == 3)
-                                                    <span class="badge badge-secondary">Summer</span>
+                                                    <span class="badge bg-secondary">Summer</span>
                                                 @endif
                                             </td>
                                             <td>{{ $datastudsubowner->subSec }}</td>
