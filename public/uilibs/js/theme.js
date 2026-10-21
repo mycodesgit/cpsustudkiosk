@@ -22,15 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Read saved user choice only — default is light. No system lookup.
-    var stored = null;
-    try {
-        stored = localStorage.getItem('theme');
-    } catch (e) {
-        stored = null;
-    }
-    const currentTheme = htmlElement.getAttribute('data-bs-theme') || stored || 'light';
-    htmlElement.setAttribute('data-bs-theme', currentTheme);
+    // Read saved or preference-based theme
+    const currentTheme = htmlElement.getAttribute('data-bs-theme') ||
+        (localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 
     // Set initial UI state
     updateThemeUI(currentTheme);

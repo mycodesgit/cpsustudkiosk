@@ -30,6 +30,18 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <!-- fullCalendar -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
+    <script>
+        (function() {
+            // Light is the default. Only a saved user choice can enable dark.
+            var theme = 'light';
+            try {
+                theme = localStorage.getItem('theme') || 'light';
+            } catch (e) {
+                theme = 'light';
+            }
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        })();
+    </script>
     @stack('styles')
 </head>
 <body>
@@ -77,12 +89,12 @@
 
                 <!-- Light / Dark Theme Switcher -->
                 <div class="d-flex align-items-center">
-                    <label class="theme-switch" title="Toggle Theme">
-                        <input type="checkbox" id="themeToggle" aria-label="Toggle Dark Mode">
+                    <label class="theme-switch" for="themeToggle">
+                        <input type="checkbox" id="themeToggle">
                         <span class="slider">
                             <span class="slider-content">
-                                <i id="themeIcon" class="ti ti-sun"></i>
-                                <span id="themeLabel">Light</span>
+                                <i id="themeIcon" class="ti ti-moon"></i>
+                                <span id="themeLabel">Dark</span>
                             </span>
                         </span>
                     </label>

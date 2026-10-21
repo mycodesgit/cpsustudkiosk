@@ -646,6 +646,18 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Slide knob to the right when checked (Dark Mode) */
+input:checked + .slider .slider-content {
+    transform: translateX(24px);
+    background-color: #32363b;
+    color: #fff;
+}
+
+/* Dark background for track when active */
+input:checked + .slider {
+    background-color: #212529;
+}
+
 
 
 
